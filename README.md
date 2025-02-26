@@ -1,4 +1,162 @@
 # DNSMAP
+Thinking...
+> 
+> Alright, the user is asking about Dnsmap, another Kali tool, after previously inquiring about Dnsenum. Let me recall what I know about Dnsmap. It's used for subdomain brute-forcing, similar to some features in Dnsenum but perhaps simpler or more focused on that specific task.
+> 
+> First, I need to explain what Dnsmap does. It's a tool designed to discover subdomains by brute-forcing using a wordlist. The primary function is to find hidden or non-obvious subdomains. Unlike Dnsenum, which does more comprehensive DNS enumeration, Dnsmap is specialized in subdomain brute-forcing.
+> 
+> Installation: Even though Kali comes with many tools pre-installed, it's possible Dnsmap isn't included by default. I should check and mention the installation command. From what I remember, it's available in the Kali repos, so 'sudo apt install dnsmap' would work.
+> 
+> Basic usage would involve running dnsmap followed by the target domain. The simplest example is 'dnsmap example.com'. But they might also want to use a custom wordlist, specify output files, or adjust the wait time between requests to avoid detection.
+> 
+> Common options include -w for specifying a wordlist, -r to save results to a file, and -t to set a delay between queries. The built-in wordlist is probably in /usr/share/dnsmap/wordlist_TLAs.txt or similar, but users can provide their own.
+> 
+> Examples: The user wants examples. So a basic scan, one with a custom wordlist, delayed requests, and output to a file. Also, maybe an example of using the internal wordlist if no external one is specified.
+> 
+> Output: When run, Dnsmap shows discovered subdomains along with their IP addresses. If using a custom wordlist, it might find more subdomains. The output file would list these in a structured format.
+> 
+> Potential mistakes: Users might forget to specify a wordlist if they intend to use one, or not realize the default wordlist is limited. Also, not using a delay (-t) might lead to aggressive scanning that could be detected.
+> 
+> Ethical considerations again: Emphasize that unauthorized scanning is illegal. Dnsmap is for legitimate security assessments.
+> 
+> Troubleshooting: If the command isn't found, install dnsmap. If no subdomains are found, maybe the wordlist is too small or the domain has strong protections.
+> 
+> Sample output structure: Show the command line execution, each subdomain found with its IP, and the completion message.
+> 
+> Need to differentiate Dnsmap from Dnsenum. While both do subdomain brute-forcing, Dnsmap is more focused on that single task, whereas Dnsenum does broader DNS enumeration (MX records, zone transfers, etc.).
+> 
+> Also, mention that using a larger wordlist can yield better results but takes longer. Users might want to use tools like amass or sublist3r in conjunction for more comprehensive results.
+> 
+> Finally, wrap it up in a clear, structured format with examples and outputs as before. Make sure the commands are accurate and the explanations are concise.
+> 
+
+
+**Dnsmap** is a subdomain brute-forcing tool in Kali Linux designed to discover hidden subdomains of a target domain using wordlists. Below is a guide on its usage, examples, and sample outputs.
+
+---
+
+### **Installation**
+Dnsmap is pre-installed in Kali Linux. If missing, install it with:
+```bash
+sudo apt update && sudo apt install dnsmap
+```
+
+---
+
+### **Basic Syntax**
+```bash
+dnsmap <target-domain> [options]
+```
+
+---
+
+### **Common Options**
+| Option          | Description                                                                 |
+|-----------------|-----------------------------------------------------------------------------|
+| `-w <file>`     | Use a custom wordlist (default: built-in list).                             |
+| `-r <file>`     | Save results to a file.                                                    |
+| `-t <ms>`       | Set delay (in milliseconds) between requests to avoid detection.          |
+| `-i <ip>`       | Ignore IPs (e.g., to skip false positives).                                |
+| `--ip`          | Show IP addresses of discovered subdomains.                               |
+
+---
+
+### **Examples**
+
+#### **1. Basic Subdomain Brute-Forcing**
+```bash
+dnsmap example.com
+```
+**Output**:
+```
+dnsmap 0.36 - DNS Network Mapper by pagvac (gnucitizen.org)
+
+[+] Searching for subdomains in example.com using built-in wordlist
+[+] Sorting results by IP address...
+
+[+] 10 subdomains found:
+
+www.example.com
+IP address #1: 93.184.216.34
+
+mail.example.com
+IP address #1: 93.184.216.35
+
+ftp.example.com
+IP address #1: 93.184.216.36
+
+... (truncated)
+```
+
+---
+
+#### **2. Use a Custom Wordlist**
+```bash
+dnsmap example.com -w /usr/share/wordlists/subdomains-top1mil.txt -r results.txt
+```
+**Explanation**:
+- `-w`: Specifies a custom wordlist (e.g., `subdomains-top1mil.txt`).
+- `-r`: Saves results to `results.txt`.
+
+---
+
+#### **3. Add Delay Between Requests**
+Slow down scanning to evade detection:
+```bash
+dnsmap example.com -t 500
+```
+**Explanation**:
+- `-t 500`: Adds a 500ms delay between requests.
+
+---
+
+#### **4. Filter Out Specific IPs**
+Ignore results resolving to `192.168.1.1`:
+```bash
+dnsmap example.com -i 192.168.1.1
+```
+
+---
+
+### **Sample Output File (results.txt)**
+The `-r` flag generates a file like:
+```
+www.example.com (93.184.216.34)
+mail.example.com (93.184.216.35)
+ftp.example.com (93.184.216.36)
+...
+```
+
+---
+
+### **Key Features**
+- **Subdomain Discovery**: Brute-forces subdomains using wordlists.
+- **Flexible Wordlists**: Supports custom wordlists for targeted scans.
+- **Stealth Mode**: Adjustable delays (`-t`) to avoid triggering alarms.
+
+---
+
+### **Ethical Note**
+- Only use Dnsmap on domains you own or have explicit permission to scan.
+- Unauthorized subdomain enumeration may violate laws or policies.
+
+---
+
+### **Troubleshooting**
+- **No Subdomains Found?** Try a larger wordlist (e.g., `subdomains-top1mil.txt`).
+- **Command Not Found?** Install Dnsmap with `sudo apt install dnsmap`.
+- **False Positives?** Use `-i` to ignore specific IPs.
+
+---
+
+### **Comparison with Dnsenum**
+- **Dnsmap**: Focused on subdomain brute-forcing with wordlists.
+- **Dnsenum**: Broader DNS enumeration (MX records, zone transfers, etc.).
+
+---
+
+For comprehensive subdomain discovery, combine Dnsmap with tools like **Amass** or **Sublist3r**.
+                        ALTERNATIVE
 `dnsmap` is a tool used for DNS enumeration and brute-forcing subdomains. It helps in gathering information about a target domain by discovering subdomains. Here's a brief overview of common `dnsmap` commands and examples:
 
 ### Installation
